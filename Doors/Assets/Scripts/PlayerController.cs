@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,9 +19,13 @@ public class PlayerController : MonoBehaviour
 
     private float distanceGround;
 
-    private Animator anim;
-
     private Rigidbody rb;
+
+    private Vector3 resetPos;
+
+    private bool isTimeTrial;
+    private Timer timerObj;
+    private bool hasStarted;
 
     void Start()
     {
@@ -28,18 +33,29 @@ public class PlayerController : MonoBehaviour
         jumpForce = 30;
         jumpTime = 0.75F;
         moveSpeed = 2;
-        gravity = -10;
+        gravity = 0;
 
         distanceGround = gameObject.GetComponent<CapsuleCollider>().bounds.extents.y;
 
-        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         jumpTimeCounter = jumpTime;
         gravTimeCounter = 0;
 
+        hasStarted = false;
+
         stoppedJumping = true;
 
+        resetPos = Vector3.zero;
 
+        if(SceneManager.GetActiveScene().name == "Lvl1Regular" || SceneManager.GetActiveScene().name == "Lvl2Regular")
+        {
+            isTimeTrial = false;
+        }
+        else
+        {
+            isTimeTrial = true;
+            timerObj = GameObject.Find("Timer").GetComponent<Timer>();
+        }
     }
 
     // Update is called once per frame
@@ -49,7 +65,7 @@ public class PlayerController : MonoBehaviour
         float x = CrossPlatformInputManager.GetAxis("Horizontal");
         float y = CrossPlatformInputManager.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(x*moveSpeed, 0.0f, y*moveSpeed);
+        Vector3 movement = new Vector3(x * moveSpeed, 0.0f, y * moveSpeed);
 
         rb.AddForce(movement * 4f);
 
@@ -70,20 +86,22 @@ public class PlayerController : MonoBehaviour
         }
         if (isGrounded())
         {
-            if (x != 0 || y != 0)
+            /*if (x != 0 || y != 0)
             {
                 anim.Play("PlayerMove");
             }
             else
             {
                 anim.Play("PlayerIdle");
-            }
+            }*/
         }
         else if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
             Debug.Log("Ree");
-            anim.Play("PlayerJump");
+         //   anim.Play("PlayerJump");
+            gravity = -2;
         }
+
     }
 
     private bool isGrounded()
@@ -94,12 +112,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
 
-
-
-
-
         if (CrossPlatformInputManager.GetButton("Jump") && isGrounded())
         {
+
             Debug.Log("Jumped");
             rb.velocity = new Vector2(rb.velocity.y, jumpForce);
             stoppedJumping = false;
@@ -131,4 +146,26 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("Hitting Shit");
+        if (other.gameObject.tag == "Kills")
+        {
+            gameObject.GetComponent<Transform>().position = resetPos;
+            if (isTimeTrial)
+            {
+                timerObj.addTime(5F);
+            }
+        }
+        else if(other.gameObject.tag == "Finish")
+        {
+            SceneManager.LoadScene("End");
+        }
+        else if(isGrounded())
+        {
+            resetPos = gameObject.GetComponent<Transform>().position;
+        }
+    }
+
 }
