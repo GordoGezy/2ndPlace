@@ -158,8 +158,11 @@ public class PlayerController : MonoBehaviour
                 timerObj.addTime(5F);
             }
         }
-        else if(other.gameObject.tag == "Finish")
+		else if(other.gameObject.tag == "Finish" || other.gameObject.tag == "Nice")
         {
+			if (isTimeTrial == true) {
+				GameObject.Find ("Timer").GetComponent<Timer> ().isFinished = true;
+			}
             SceneManager.LoadScene("End");
         }
         else if(isGrounded())

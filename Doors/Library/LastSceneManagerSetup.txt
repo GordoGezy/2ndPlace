@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/Lvl1Regular.unity
+- path: Assets/_Scenes/Lvl2TimeTrial.unity
   isLoaded: 1
   isActive: 1
