@@ -34,7 +34,7 @@ public class AreaLearningStartup : MonoBehaviour, ITangoLifecycle
 
     public void StartButton()
     {
-        GameObject Stairs = Instantiate(stairs, stairsStartPos, stairsStartRot);
+		GameObject Stairs = Instantiate(stairs, stairsStartPos, Quaternion.Euler(0, 30, 0));
         GameObject Player = Instantiate(player, playerStartPos, playerStartRot);
         GameObject Boulder = Instantiate(boulder, boulderStartPos, boulderStartRot);
         Destroy(GameObject.Find("StartButton"));

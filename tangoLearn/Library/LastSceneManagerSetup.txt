@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/TangoSDK/Examples/Scenes/ExperimentalMeshOcclusion.unity
-  isLoaded: 1
-  isActive: 1
