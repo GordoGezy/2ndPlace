@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public float gravity;
 
     private float distanceGround;
+    public bool grounded;
 
     private Rigidbody rb;
 
@@ -30,10 +31,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
 
-        jumpForce = 30;
-        jumpTime = 0.75F;
-        moveSpeed = 2;
-        gravity = 0;
+        jumpForce = 2.3F;
+        jumpTime = 0.5F;
+        moveSpeed = 0.1F;
+        gravity = -0.9F;
+        grounded = false;
 
         distanceGround = gameObject.GetComponent<CapsuleCollider>().bounds.extents.y;
 
@@ -61,7 +63,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        grounded = isGrounded();
         float x = CrossPlatformInputManager.GetAxis("Horizontal");
         float y = CrossPlatformInputManager.GetAxis("Vertical");
 
@@ -99,14 +101,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Ree");
          //   anim.Play("PlayerJump");
-            gravity = -2;
         }
 
     }
 
     private bool isGrounded()
     {
-        return Physics.Raycast(transform.position, -Vector3.up, distanceGround + 0.1F);
+        return Physics.Raycast(transform.position, -Vector3.up, distanceGround+0.05F);
     }
 
     void FixedUpdate()
@@ -158,11 +159,12 @@ public class PlayerController : MonoBehaviour
                 timerObj.addTime(5F);
             }
         }
-		else if(other.gameObject.tag == "Finish" || other.gameObject.tag == "Nice")
+        else if (other.gameObject.tag == "Finish")
         {
-			if (isTimeTrial == true) {
-				GameObject.Find ("Timer").GetComponent<Timer> ().isFinished = true;
-			}
+            if (isTimeTrial == true)
+            {
+                GameObject.Find("Timer").GetComponent<Timer>().isFinished = true;
+            }
             SceneManager.LoadScene("End");
         }
         else if(isGrounded())

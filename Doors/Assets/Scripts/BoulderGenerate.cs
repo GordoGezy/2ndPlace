@@ -26,8 +26,8 @@ public class BoulderGenerate : MonoBehaviour
 	IEnumerator boulderSpawn() 
 	{
 		shouldStart = false;
-		yield return new WaitForSeconds (5);
-		number = Random.Range(-10, 10);
+		yield return new WaitForSeconds (3);
+		number = Random.Range(-75, 75)/100F;
 		Vector3 spawnerPosition = transform.position;
 		spawnerPosition.x += number;
 		Instantiate (boulder, spawnerPosition, transform.rotation);
