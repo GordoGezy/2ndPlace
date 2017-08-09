@@ -8,7 +8,6 @@ public class Boulder : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StartCoroutine (boulderDespawn ());
         rb = gameObject.GetComponent<Rigidbody>();
     }
 	
@@ -18,8 +17,5 @@ public class Boulder : MonoBehaviour {
         rb.velocity = Vector3.back;
 		rb.AddForce (new Vector3(0, -100F, 0));
 	}
-	IEnumerator boulderDespawn() {
-		yield return new WaitForSeconds (15);
-		Destroy (gameObject);
-	}
+
 }

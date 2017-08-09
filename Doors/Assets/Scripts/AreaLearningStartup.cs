@@ -9,6 +9,8 @@ public class AreaLearningStartup : MonoBehaviour, ITangoLifecycle
     public Vector3 playerStartPos;
     public Vector3 stairsStartPos;
     public Vector3 boulderStartPos;
+	public Vector3 wallStartPos;
+	public Vector3 doorStartPos;
     public Quaternion playerStartRot;
     public Quaternion stairsStartRot;
     public Quaternion boulderStartRot;
@@ -16,6 +18,8 @@ public class AreaLearningStartup : MonoBehaviour, ITangoLifecycle
     public GameObject stairs;
     public GameObject player;
     public GameObject boulder;
+	public GameObject wall;
+	public GameObject door;
 
     private TangoApplication m_tangoApplication;
 
@@ -34,9 +38,11 @@ public class AreaLearningStartup : MonoBehaviour, ITangoLifecycle
 
     public void StartButton()
     {
-		GameObject Stairs = Instantiate(stairs, stairsStartPos, Quaternion.Euler(0, 30, 0));
+		GameObject Stairs = Instantiate(stairs, stairsStartPos, Quaternion.Euler(0, 194, 0));
         GameObject Player = Instantiate(player, playerStartPos, playerStartRot);
         GameObject Boulder = Instantiate(boulder, boulderStartPos, boulderStartRot);
+		GameObject Wall = Instantiate (wall, wallStartPos, Quaternion.Euler (0, 194, 0));
+		GameObject Door = Instantiate (door, doorStartPos, Quaternion.Euler (0, 14, 0));
         Destroy(GameObject.Find("StartButton"));
     }
 
