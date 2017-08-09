@@ -16,7 +16,7 @@ public class Boulder : MonoBehaviour {
 	void Update () {
 
         rb.velocity = Vector3.back;
-
+		rb.AddForce (new Vector3(0, -100F, 0));
 	}
 	IEnumerator boulderDespawn() {
 		yield return new WaitForSeconds (15);
